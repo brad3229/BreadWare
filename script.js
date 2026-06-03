@@ -191,15 +191,29 @@ document.getElementById('contactForm').addEventListener('submit', e => {
   e.preventDefault();
   const btn = document.getElementById('submitBtn');
   const orig = btn.textContent;
-  btn.textContent = 'Message Sent!';
-  btn.style.background   = '#28c840';
-  btn.style.boxShadow    = '0 0 24px rgba(40,200,64,0.4)';
   btn.disabled = true;
-  setTimeout(() => {
-    btn.textContent      = orig;
-    btn.style.background = '';
-    btn.style.boxShadow  = '';
+  btn.textContent = 'Sending...';
+
+  fetch('/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams(new FormData(e.target)).toString()
+  })
+  .then(() => {
+    btn.textContent = 'Message Sent!';
+    btn.style.background = '#28c840';
+    btn.style.boxShadow  = '0 0 24px rgba(40,200,64,0.4)';
+    setTimeout(() => {
+      btn.textContent      = orig;
+      btn.style.background = '';
+      btn.style.boxShadow  = '';
+      btn.disabled = false;
+      e.target.reset();
+    }, 3200);
+  })
+  .catch(() => {
+    btn.textContent = 'Something went wrong. Try again.';
+    btn.style.background = '#e53e3e';
     btn.disabled = false;
-    e.target.reset();
-  }, 3200);
+  });
 });
