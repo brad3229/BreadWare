@@ -554,8 +554,9 @@ h3 {
 }
 .portfolio-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(320px, 600px));
   gap: 20px;
+  justify-content: center;
 }
 .portfolio-card {
   border-radius: var(--radius);
