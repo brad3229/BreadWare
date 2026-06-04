@@ -186,6 +186,16 @@ activeLinkStyle.textContent = '.nav-links a.active:not(.nav-cta){color:#e2e2e8!i
 document.head.appendChild(activeLinkStyle);
 
 
+/* === PHONE FORMATTER === */
+document.getElementById('phone').addEventListener('input', e => {
+  const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
+  let formatted = '';
+  if (digits.length > 6)      formatted = `(${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6)}`;
+  else if (digits.length > 3) formatted = `(${digits.slice(0,3)}) ${digits.slice(3)}`;
+  else if (digits.length > 0) formatted = `(${digits}`;
+  e.target.value = formatted;
+});
+
 /* === CONTACT FORM === */
 document.getElementById('contactForm').addEventListener('submit', e => {
   e.preventDefault();
