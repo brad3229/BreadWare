@@ -28,7 +28,14 @@ function initParticles() {
 }
 initParticles();
 
-window.addEventListener('resize', () => { resize(); initParticles(); });
+let lastW = window.innerWidth;
+window.addEventListener('resize', () => {
+  resize();
+  if (window.innerWidth !== lastW) {
+    lastW = window.innerWidth;
+    initParticles();
+  }
+});
 window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
 window.addEventListener('mouseleave', () => { mouse.x = -9999; mouse.y = -9999; });
 
