@@ -159,6 +159,7 @@ function toggleMenu(open) {
 }
 
 hamburger.addEventListener('click', () => toggleMenu(!menuOpen));
+window.addEventListener('scroll', () => { if (menuOpen) toggleMenu(false); }, { passive: true });
 document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', () => toggleMenu(false)));
 
 
