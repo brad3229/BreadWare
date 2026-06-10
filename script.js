@@ -208,11 +208,14 @@ document.getElementById('phone').addEventListener('input', e => {
 const calcOptions = document.querySelectorAll('.calc-option');
 const calcChecks  = document.querySelectorAll('.calc-checkbox input');
 const calcPrice   = document.getElementById('calcPrice');
+const calcMonthly = document.getElementById('calcMonthly');
 
 function updateCalc() {
   const active = document.querySelector('.calc-option.active');
   let min = parseInt(active.dataset.min);
   let max = parseInt(active.dataset.max);
+  let monthlyMin = 0;
+  let monthlyMax = 0;
 
   const excluded = (active.dataset.excludes || '').split(',');
 
@@ -225,6 +228,8 @@ function updateCalc() {
     if (c.checked) {
       min += parseInt(c.dataset.min);
       max += parseInt(c.dataset.max);
+      monthlyMin += parseInt(c.dataset.monthlyMin || 0);
+      monthlyMax += parseInt(c.dataset.monthlyMax || 0);
     }
   });
 
@@ -232,6 +237,12 @@ function updateCalc() {
   calcPrice.classList.remove('pulse');
   void calcPrice.offsetWidth;
   calcPrice.classList.add('pulse');
+
+  if (monthlyMax > 0) {
+    calcMonthly.textContent = `+ $${monthlyMin.toLocaleString()} – $${monthlyMax.toLocaleString()}/month for ongoing maintenance`;
+  } else {
+    calcMonthly.textContent = '';
+  }
 }
 
 calcOptions.forEach(opt => {

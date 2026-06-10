@@ -996,6 +996,12 @@ h3 {
 .calc-result-price.pulse {
   animation: calcPulse 0.35s ease;
 }
+.calc-result-monthly {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  margin: -6px 0 14px;
+}
 @keyframes calcPulse {
   0% {
     transform: scale(1);
