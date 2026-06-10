@@ -229,6 +229,9 @@ function updateCalc() {
   });
 
   calcPrice.textContent = `$${min.toLocaleString()} – $${max.toLocaleString()}`;
+  calcPrice.classList.remove('pulse');
+  void calcPrice.offsetWidth;
+  calcPrice.classList.add('pulse');
 }
 
 calcOptions.forEach(opt => {

@@ -902,7 +902,8 @@ h3 {
   transition:
     border-color 0.2s,
     color 0.2s,
-    background 0.2s;
+    background 0.2s,
+    transform 0.2s;
 }
 .calc-option-title {
   font-size: 0.92rem;
@@ -918,6 +919,7 @@ h3 {
 .calc-option:hover {
   border-color: rgba(0, 212, 255, 0.4);
   color: var(--text);
+  transform: translateY(-3px);
 }
 .calc-option.active {
   background: rgba(0, 212, 255, 0.08);
@@ -990,6 +992,21 @@ h3 {
   color: var(--accent);
   letter-spacing: -0.02em;
   margin-bottom: 14px;
+}
+.calc-result-price.pulse {
+  animation: calcPulse 0.35s ease;
+}
+@keyframes calcPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+    color: #fff;
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 .calc-disclaimer {
   color: var(--text-dim);
