@@ -204,6 +204,44 @@ document.getElementById('phone').addEventListener('input', e => {
   e.target.value = formatted;
 });
 
+/* === PRICING CALCULATOR === */
+const calcOptions = document.querySelectorAll('.calc-option');
+const calcChecks  = document.querySelectorAll('.calc-checkbox input');
+const calcPrice   = document.getElementById('calcPrice');
+
+function updateCalc() {
+  const active = document.querySelector('.calc-option.active');
+  let min = parseInt(active.dataset.min);
+  let max = parseInt(active.dataset.max);
+
+  const excluded = (active.dataset.excludes || '').split(',');
+
+  calcChecks.forEach(c => {
+    const isExcluded = excluded.includes(c.dataset.key);
+    c.disabled = isExcluded;
+    c.closest('.calc-checkbox').classList.toggle('disabled', isExcluded);
+    if (isExcluded) c.checked = false;
+
+    if (c.checked) {
+      min += parseInt(c.dataset.min);
+      max += parseInt(c.dataset.max);
+    }
+  });
+
+  calcPrice.textContent = `$${min.toLocaleString()} – $${max.toLocaleString()}`;
+}
+
+calcOptions.forEach(opt => {
+  opt.addEventListener('click', () => {
+    calcOptions.forEach(o => o.classList.remove('active'));
+    opt.classList.add('active');
+    updateCalc();
+  });
+});
+
+calcChecks.forEach(c => c.addEventListener('change', updateCalc));
+
+
 /* === CONTACT FORM === */
 document.getElementById('contactForm').addEventListener('submit', e => {
   e.preventDefault();
