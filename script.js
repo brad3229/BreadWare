@@ -245,6 +245,40 @@ function updateCalc() {
   }
 }
 
+/* === SEND CALCULATOR SELECTIONS TO CONTACT FORM === */
+const getQuoteBtn   = document.getElementById('getQuoteBtn');
+const projectSelect = document.getElementById('project');
+const messageField  = document.getElementById('message');
+
+getQuoteBtn.addEventListener('click', () => {
+  const active = document.querySelector('.calc-option.active');
+  const projectTitle = active.querySelector('.calc-option-title').textContent;
+
+  if (active.dataset.projectType) {
+    projectSelect.value = active.dataset.projectType;
+  }
+
+  const addOns = [];
+  let monthlyNote = '';
+  calcChecks.forEach(c => {
+    if (c.checked) {
+      const title = c.closest('.calc-checkbox').querySelector('.calc-checkbox-title').textContent;
+      if (parseInt(c.dataset.monthlyMax || 0) > 0) {
+        monthlyNote = calcMonthly.textContent;
+      } else {
+        addOns.push(title);
+      }
+    }
+  });
+
+  let msg = `Hi, I used the pricing calculator on your site.\n\nProject Type: ${projectTitle}\nEstimated Range: ${calcPrice.textContent}`;
+  if (addOns.length) msg += `\nAdd-ons: ${addOns.join(', ')}`;
+  if (monthlyNote)   msg += `\n${monthlyNote}`;
+  msg += `\n\nLet's chat about the details!`;
+
+  messageField.value = msg;
+});
+
 calcOptions.forEach(opt => {
   opt.addEventListener('click', () => {
     calcOptions.forEach(o => o.classList.remove('active'));
@@ -256,9 +290,65 @@ calcOptions.forEach(opt => {
 calcChecks.forEach(c => c.addEventListener('change', updateCalc));
 
 
+/* === CONTACT FORM VALIDATION === */
+const contactForm    = document.getElementById('contactForm');
+const requiredFields = contactForm.querySelectorAll('[required]');
+
+function fieldLabel(field) {
+  return field.closest('.form-group').querySelector('label').textContent.replace(' (optional)', '');
+}
+
+function showError(field, message) {
+  const group = field.closest('.form-group');
+  group.classList.add('invalid');
+  let err = group.querySelector('.form-error');
+  if (!err) {
+    err = document.createElement('span');
+    err.className = 'form-error';
+    group.appendChild(err);
+  }
+  err.textContent = message;
+}
+
+function clearError(field) {
+  const group = field.closest('.form-group');
+  group.classList.remove('invalid');
+  const err = group.querySelector('.form-error');
+  if (err) err.remove();
+}
+
+function validateField(field) {
+  if (field.validity.valid) {
+    clearError(field);
+    return true;
+  }
+  if (field.validity.typeMismatch && field.type === 'email') {
+    showError(field, 'Please enter a valid email address.');
+  } else {
+    showError(field, `Please enter your ${fieldLabel(field).toLowerCase()}.`);
+  }
+  return false;
+}
+
+requiredFields.forEach(field => {
+  field.addEventListener('input', () => clearError(field));
+  field.addEventListener('blur', () => validateField(field));
+});
+
+
 /* === CONTACT FORM === */
 document.getElementById('contactForm').addEventListener('submit', e => {
   e.preventDefault();
+
+  let valid = true;
+  requiredFields.forEach(field => {
+    if (!validateField(field)) valid = false;
+  });
+  if (!valid) {
+    contactForm.querySelector('.invalid input, .invalid textarea').focus();
+    return;
+  }
+
   const btn = document.getElementById('submitBtn');
   const orig = btn.textContent;
   btn.disabled = true;

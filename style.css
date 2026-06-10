@@ -1127,6 +1127,21 @@ h3 {
   border-color: var(--accent);
   box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
 }
+.form-group.invalid input,
+.form-group.invalid select,
+.form-group.invalid textarea {
+  border-color: #e53e3e;
+}
+.form-group.invalid input:focus,
+.form-group.invalid select:focus,
+.form-group.invalid textarea:focus {
+  box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.15);
+}
+.form-error {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #e53e3e;
+}
 .form-group select {
   appearance: none;
   cursor: pointer;

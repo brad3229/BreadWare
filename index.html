@@ -49,6 +49,7 @@
           <li><a href="#about">About</a></li>
           <li><a href="#services">Services</a></li>
           <li><a href="#portfolio">Portfolio</a></li>
+          <li><a href="#calculator">Pricing</a></li>
           <li><a href="#contact" class="nav-cta">Get In Touch</a></li>
         </ul>
         <button class="nav-hamburger" id="hamburger" aria-label="Menu">
@@ -62,6 +63,7 @@
         <li><a href="#about" class="mobile-link">About</a></li>
         <li><a href="#services" class="mobile-link">Services</a></li>
         <li><a href="#portfolio" class="mobile-link">Portfolio</a></li>
+        <li><a href="#calculator" class="mobile-link">Pricing</a></li>
         <li><a href="#contact" class="mobile-link">Contact</a></li>
       </ul>
     </div>
@@ -361,23 +363,23 @@
           <div class="calc-group">
             <span class="calc-group-label">Project Type</span>
             <div class="calc-options">
-              <button type="button" class="calc-option active" data-min="300" data-max="600">
+              <button type="button" class="calc-option active" data-min="300" data-max="600" data-project-type="New Website" data-excludes="extra-pages">
                 <span class="calc-option-title">Landing Page</span>
                 <span class="calc-option-desc">One scrolling page to promote a product, service, business, or event</span>
               </button>
-              <button type="button" class="calc-option" data-min="700" data-max="1500">
+              <button type="button" class="calc-option" data-min="700" data-max="1500" data-project-type="New Website">
                 <span class="calc-option-title">Business Site</span>
                 <span class="calc-option-desc">A multi-page site (Home, About, Services, Contact) for your business</span>
               </button>
-              <button type="button" class="calc-option" data-min="1500" data-max="3000">
+              <button type="button" class="calc-option" data-min="1500" data-max="3000" data-project-type="E-Commerce Store">
                 <span class="calc-option-title">E-Commerce Store</span>
                 <span class="calc-option-desc">A storefront where customers browse products and pay online with secure checkout</span>
               </button>
-              <button type="button" class="calc-option" data-min="2500" data-max="5000">
+              <button type="button" class="calc-option" data-min="2500" data-max="5000" data-project-type="New Website">
                 <span class="calc-option-title">Web App</span>
                 <span class="calc-option-desc">Custom tools like logins, dashboards, or booking systems built for your workflow</span>
               </button>
-              <button type="button" class="calc-option calc-option--wide" data-min="200" data-max="500" data-excludes="seo">
+              <button type="button" class="calc-option calc-option--wide" data-min="200" data-max="500" data-excludes="seo" data-project-type="SEO &amp; Performance">
                 <span class="calc-option-title">Already Have a Site? (SEO Only)</span>
                 <span class="calc-option-desc">No new site needed — get an SEO audit and improvements to help your existing site rank higher</span>
               </button>
@@ -394,7 +396,7 @@
                 </span>
               </label>
               <label class="calc-checkbox">
-                <input type="checkbox" data-min="150" data-max="300" />
+                <input type="checkbox" data-min="150" data-max="300" data-key="extra-pages" />
                 <span class="calc-checkbox-text">
                   <span class="calc-checkbox-title">Extra Pages</span>
                   <span class="calc-checkbox-desc">Adds 2–3 more pages beyond the basics, like FAQ, Team, or Testimonials</span>
@@ -431,7 +433,7 @@
               This is a rough estimate to help you plan. Every project is
               different — let's chat for an exact quote.
             </p>
-            <a href="#contact" class="btn btn-primary">Get an Exact Quote</a>
+            <a href="#contact" class="btn btn-primary" id="getQuoteBtn">Get an Exact Quote</a>
           </div>
         </div>
       </div>
@@ -477,6 +479,7 @@
             id="contactForm"
             name="contact"
             netlify
+            novalidate
           >
             <input type="hidden" name="form-name" value="contact" />
             <div class="form-row">
@@ -543,6 +546,7 @@
             <a href="#about">About</a>
             <a href="#services">Services</a>
             <a href="#portfolio">Work</a>
+            <a href="#calculator">Pricing</a>
             <a href="#contact">Contact</a>
           </nav>
         </div>
