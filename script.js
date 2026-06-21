@@ -246,13 +246,20 @@ function updateCalc() {
 }
 
 /* === SEND CALCULATOR SELECTIONS TO CONTACT FORM === */
-const getQuoteBtn   = document.getElementById('getQuoteBtn');
-const projectSelect = document.getElementById('project');
-const messageField  = document.getElementById('message');
+const getQuoteBtn    = document.getElementById('getQuoteBtn');
+const projectSelect  = document.getElementById('project');
+const messageField   = document.getElementById('message');
+const quoteSummary   = document.getElementById('quoteSummary');
+const quoteSummaryBody = document.getElementById('quoteSummaryBody');
+const quoteProject   = document.getElementById('quoteProject');
+const quotePrice     = document.getElementById('quotePrice');
+const quoteAddons    = document.getElementById('quoteAddons');
+const quoteMonthly   = document.getElementById('quoteMonthly');
 
 getQuoteBtn.addEventListener('click', () => {
   const active = document.querySelector('.calc-option.active');
   const projectTitle = active.querySelector('.calc-option-title').textContent;
+  const priceText = calcPrice.textContent;
 
   if (active.dataset.projectType) {
     projectSelect.value = active.dataset.projectType;
@@ -271,12 +278,21 @@ getQuoteBtn.addEventListener('click', () => {
     }
   });
 
-  let msg = `Hi, I used the pricing calculator on your site.\n\nProject Type: ${projectTitle}\nEstimated Range: ${calcPrice.textContent}`;
-  if (addOns.length) msg += `\nAdd-ons: ${addOns.join(', ')}`;
-  if (monthlyNote)   msg += `\n${monthlyNote}`;
-  msg += `\n\nLet's chat about the details!`;
+  quoteProject.value = projectTitle;
+  quotePrice.value   = priceText;
+  quoteAddons.value  = addOns.join(', ');
+  quoteMonthly.value = monthlyNote;
 
-  messageField.value = msg;
+  let html = `<div class="quote-row"><span>Project Type</span><strong>${projectTitle}</strong></div>`;
+  html    += `<div class="quote-row"><span>Estimated Range</span><strong>${priceText}</strong></div>`;
+  if (addOns.length) html += `<div class="quote-row"><span>Add-ons</span><strong>${addOns.join(', ')}</strong></div>`;
+  if (monthlyNote)   html += `<div class="quote-row"><span>Maintenance</span><strong>${monthlyNote}</strong></div>`;
+  quoteSummaryBody.innerHTML = html;
+  quoteSummary.style.display = 'block';
+
+  if (!messageField.value.trim()) {
+    messageField.placeholder = "Any extra details or questions for me?";
+  }
 });
 
 calcOptions.forEach(opt => {
@@ -369,6 +385,9 @@ document.getElementById('contactForm').addEventListener('submit', e => {
       btn.style.boxShadow  = '';
       btn.disabled = false;
       e.target.reset();
+      quoteSummary.style.display = 'none';
+      quoteSummaryBody.innerHTML = '';
+      messageField.placeholder   = 'Tell me about your project...';
     }, 3200);
   })
   .catch(() => {
