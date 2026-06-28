@@ -1,3 +1,39 @@
+/* === SPLASH === */
+const splash = document.getElementById('splash');
+if (splash) {
+  const splashFrame = document.getElementById('splashFrame');
+  splashFrame.addEventListener('load', () => {
+    try {
+      const doc = splashFrame.contentDocument;
+
+      const style = doc.createElement('style');
+      style.textContent = 'button, #__bundler_err, #__bundler_loading { display: none !important; }';
+      doc.head.appendChild(style);
+
+      const colorBread = () => {
+        const walker = doc.createTreeWalker(doc.body, NodeFilter.SHOW_TEXT);
+        let node;
+        while ((node = walker.nextNode())) {
+          if (node.textContent.trim() === 'Bread') {
+            node.parentElement.style.color = '#ffffff';
+            return true;
+          }
+        }
+        return false;
+      };
+
+      if (!colorBread()) {
+        const obs = new MutationObserver(() => { if (colorBread()) obs.disconnect(); });
+        obs.observe(doc.body, { childList: true, subtree: true });
+      }
+    } catch(e) {}
+  });
+  setTimeout(() => {
+    splash.classList.add('hidden');
+    setTimeout(() => splash.remove(), 700);
+  }, 3500);
+}
+
 /* === REFS === */
 const nav             = document.getElementById('nav');
 const hamburger       = document.getElementById('hamburger');
