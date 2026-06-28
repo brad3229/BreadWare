@@ -90,17 +90,21 @@ document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click
 window.addEventListener('scroll', () => { if (menuOpen) toggleMenu(false); }, { passive: true });
 
 /* === NAV SCROLL === */
+let lastNavScroll = 0;
 window.addEventListener('scroll', () => {
+  const now = Date.now();
+  if (now - lastNavScroll < 100) return;
+  lastNavScroll = now;
   if (window.scrollY > 40) {
-    nav.style.background    = 'rgba(6,9,14,.72)';
+    nav.style.background     = 'rgba(6,9,14,.72)';
     nav.style.backdropFilter = 'blur(16px)';
-    nav.style.boxShadow     = '0 1px 0 rgba(255,255,255,.06)';
-    nav.style.padding       = '16px 3vw';
+    nav.style.boxShadow      = '0 1px 0 rgba(255,255,255,.06)';
+    nav.style.padding        = '16px 3vw';
   } else {
-    nav.style.background    = 'linear-gradient(to bottom,rgba(4,6,10,.7),transparent)';
+    nav.style.background     = 'linear-gradient(to bottom,rgba(4,6,10,.7),transparent)';
     nav.style.backdropFilter = 'none';
-    nav.style.boxShadow     = 'none';
-    nav.style.padding       = '24px 3vw';
+    nav.style.boxShadow      = 'none';
+    nav.style.padding        = '24px 3vw';
   }
 }, { passive: true });
 

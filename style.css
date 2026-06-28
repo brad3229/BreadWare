@@ -125,16 +125,18 @@ textarea { resize: vertical; }
 /* === QUOTE SUMMARY === */
 .quote-summary {
   background: rgba(34,211,238,.05); border: 1.5px solid rgba(34,211,238,.25);
-  border-radius: 10px; padding: 14px 16px;
-  display: flex; flex-direction: column; gap: 10px;
+  border-radius: 10px; padding: 14px 16px 20px;
+  display: flex; flex-direction: column; gap: 16px;
 }
 .quote-summary-header {
   display: flex; align-items: center; gap: 6px;
   font-size: 11px; font-weight: 700;
   letter-spacing: .08em; text-transform: uppercase;
   color: var(--accent); user-select: none;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(34,211,238,.2);
 }
-.quote-summary-body { display: flex; flex-direction: column; gap: 6px; }
+.quote-summary-body { display: flex; flex-direction: column; gap: 6px; padding-top: 6px; }
 .quote-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: 14px; }
 .quote-row span  { color: #9aa4b2; flex-shrink: 0; }
 .quote-row strong { color: #e7edf4; font-weight: 600; text-align: right; }
