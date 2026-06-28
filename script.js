@@ -394,7 +394,7 @@ document.getElementById('contactForm').addEventListener('submit', e => {
     if (!validateField(field)) valid = false;
   });
   if (!valid) {
-    contactForm.querySelector('.invalid input, .invalid textarea').focus();
+    contactForm.querySelector('.invalid input, .invalid textarea')?.focus();
     return;
   }
 
@@ -427,5 +427,10 @@ document.getElementById('contactForm').addEventListener('submit', e => {
     btn.textContent = 'Something went wrong. Try again.';
     btn.style.background = '#e53e3e';
     btn.disabled = false;
+    setTimeout(() => {
+      btn.textContent      = orig;
+      btn.style.background = '';
+      btn.style.boxShadow  = '';
+    }, 3200);
   });
 });
