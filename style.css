@@ -296,7 +296,7 @@ h3 {
   left: 0;
   right: 0;
   height: 220px;
-  background: linear-gradient(to bottom, transparent, var(--bg));
+  background: linear-gradient(to bottom, transparent, var(--bg2));
   pointer-events: none;
   z-index: 1;
 }
