@@ -40,10 +40,50 @@
         root.querySelectorAll('button, #__bundler_err, #__bundler_loading').forEach(el => el.remove());
         if (root.id === '__bundler_err' || root.id === '__bundler_loading' || root.tagName === 'BUTTON') root.remove();
       }
-      const obs = new MutationObserver(mutations => {
-        mutations.forEach(m => m.addedNodes.forEach(node => purge(node)));
-      });
-      obs.observe(document.documentElement, { childList: true, subtree: true });
+      function injectStyle(doc) {
+        try {
+          const style = doc.createElement('style');
+          style.textContent = 'button, #__bundler_err, #__bundler_loading { display: none !important; } body, html { background: #0a0a0f !important; }';
+          doc.head.appendChild(style);
+        } catch(e) {}
+      }
+      function darkenLightBackgrounds(doc) {
+        try {
+          const all = doc.body ? doc.body.querySelectorAll('*') : [];
+          all.forEach(el => {
+            const bg = doc.defaultView.getComputedStyle(el).backgroundColor;
+            const m = bg.match(/(\d+),\s*(\d+),\s*(\d+)/);
+            if (m) {
+              const r = +m[1], g = +m[2], b = +m[3];
+              if (r > 200 && g > 200 && b > 200) {
+                el.style.setProperty('background', '#0a0a0f', 'important');
+                el.style.setProperty('background-color', '#0a0a0f', 'important');
+              }
+            }
+          });
+        } catch(e) {}
+      }
+      function watch(doc) {
+        injectStyle(doc);
+        darkenLightBackgrounds(doc);
+        const obs = new MutationObserver(mutations => {
+          mutations.forEach(m => m.addedNodes.forEach(node => purge(node)));
+          darkenLightBackgrounds(doc);
+        });
+        obs.observe(doc.documentElement, { childList: true, subtree: true });
+      }
+      watch(document);
+
+      // The bundler swaps out document.documentElement entirely once it
+      // finishes unpacking, which destroys the style tag and observer above.
+      // Re-arm protection on the freshly parsed document right after.
+      const origReplaceWith = Element.prototype.replaceWith;
+      Element.prototype.replaceWith = function(...args) {
+        const wasDocEl = (this === document.documentElement);
+        const result = origReplaceWith.apply(this, args);
+        if (wasDocEl) setTimeout(() => watch(document), 0);
+        return result;
+      };
     })();
   </script>
 
