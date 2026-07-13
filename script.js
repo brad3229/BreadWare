@@ -29,12 +29,17 @@ function initParticles() {
 initParticles();
 
 let lastW = window.innerWidth;
+let resizeTimer;
 window.addEventListener('resize', () => {
-  resize();
-  if (window.innerWidth !== lastW) {
-    lastW = window.innerWidth;
-    initParticles();
-  }
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    const newW = window.innerWidth;
+    resize();
+    if (newW !== lastW) {
+      lastW = newW;
+      initParticles();
+    }
+  }, 200);
 });
 window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
 window.addEventListener('mouseleave', () => { mouse.x = -9999; mouse.y = -9999; });
